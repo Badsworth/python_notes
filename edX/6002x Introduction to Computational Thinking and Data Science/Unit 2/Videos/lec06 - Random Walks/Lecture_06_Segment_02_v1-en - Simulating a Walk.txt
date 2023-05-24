@@ -1,0 +1,219 @@
+...
+In the last segment, we presented a set
+of related data abstractions-- location, field, drunk,
+and then two subclasses of drunk, the usual drunk
+and the cold drunk.
+We talked about how to structure a simulation that we would
+simulate one walk of k steps, simulate n such walks,
+and report the aggregated results.
+And that's what we're going to do in this segment.
+So let's start by looking at a simulation of a single walk.
+Nothing amazing here.
+The drunk takes num step steps.
+And then we return the distance between the origin
+and the end of the walk.
+I hope, by the way, that you're impressed by how little code it
+takes to simulate a walk, and importantly,
+how obviously correct it is.
+The reason is that we took the trouble at first
+to find some useful data abstractions so
+that when we actually got to build a simulation,
+it would be easy.
+Simulating multiple walks is a bit more complex, but not much.
+The interesting thing here is that sim walks has an argument,
+d class of type class.
+We do this so that we can use the same code
+to simulate walks of as many different kinds of drunks
+as we care to create.
+Notice, by the way, that we do insist that d class is
+a subclass of class drunk.
+So if we look at the code, we see that we
+create a drunk of type d class.
+Call him Homer.
+We set the origin to be zero, the distances
+to be the empty list.
+And then for t and the range of number of trials,
+we do a walk, save the distances to the append,
+and return distances.
+So we've simulated multiple walks
+and accumulated the results.
+All right, finally, we'll put it all together in something I've
+called Drunk Test.
+Remember that we started our excursion into random walks
+by asking how the distance from the origin
+changed with respect to the length of the walk
+where we measure the length of the walk in terms
+of the number of steps.
+For that reason, Drunk Test is set up
+to do num trials walks of each of multiple different lengths
+walks for a single class of drunk.
+So again, the class is defined by d class.
+We give the number of trials.
+And this will be a tuple of all the length
+of walks we want to simulate.
+Once we've done that, everything is simple.
+
+We're going to print the length of the walk.
+And then we're going to also print
+the mean of all the trials, And just
+for fun, the maximum distance and the minimum distance
+OK, let's give it a shot and see what happens.
+So just so we can repeat the experiment,
+I'll set the seed to 0.
+And we'll look at walks of 10, 100, 1,000, and 10,000 steps.
+And we'll do 100 trials and look at the average.
+So if we run it, let's see what we get.
+
+Well, what do you think?
+
+I suggest you stop the video playback here and then stare
+at this for a few minutes and see whether you
+believe these results.
+And by the way, you should be grateful
+that you can stop the tape to think about these things.
+When I do this kind of thing live at MIT,
+the students are sometimes subjected to really horrible
+background music.
+
+Welcome back from your cogitation period.
+Well, what do you think?
+If we look at these results-- and we
+can look at them over here on the PowerPoint--
+it appears that the final distance to the origin
+is pretty much independent of the number of steps.
+The means, the maximums, the minimums
+don't seem to vary with the length of the walk
+beyond a small statistical variation.
+That isn't what we expected from our hand simulation.
+We expected it to grow with the length.
+But it apparently isn't.
+Of course, if experimental results always
+matched our expectation, why bother running experiments
+at all?
+We know, in fact, that experiments
+are the most valuable when they teach us
+that what we thought we know to be true isn't actually true.
+On the other hand, we need to remember
+that it's possible to screw up any experiment.
+And simulations are no exception.
+Before jumping to any conclusions,
+we should probably do something to convince ourselves
+that the simulation results should be trusted.
+After all, anyone who's ever written a program-- and that
+includes all of you-- knows that it is possible
+to produce code with one or sometimes
+even more than one bug in it.
+So the first thing I always do for simulation
+is run it on a simple example where I
+know what it is supposed to do.
+Now, that can't convince me that the code is right.
+But it can at least persuade me that it isn't completely nuts.
+So I always think of this as running a sanity check
+on my code.
+Now, recall that we hand simulated the problem
+with some short walks.
+So let's look at those and see if they give us
+the results we expected.
+
+So we'll come back to the code here.
+And instead of simulating in these long walks,
+we'll look at walks as 0, 1, and 2 steps, and see what we get.
+Let's run these.
+
+Well, this is kind of appalling.
+
+What we see here is that on average, a walk of 0 steps
+ended up more than 8 steps from the origin.
+Kind of weird to think about that, and a maximum of 21.
+Well, we know that one step should always
+be exactly one from the origin.
+But again, that was the mean.
+Sometimes, it was 0.
+Should be impossible.
+Clearly, these results are totally bogus.
+So it's time for us to go back and look at the code.
+So let's start by looking at a simulation
+of a single walk of one step.
+So we can go up here, where we're about to-- oops,
+get rid of that false.
+So we can go back here where we're
+about to do multiple steps.
+We've added Homer to our field.
+And let's just do print, walk of the field in Homer of 0.
+And let's do it in 1 step too.
+
+Let's see what we get.
+Oh, and just so it doesn't run on forever after that,
+let's stop it.
+
+Well, this looks pretty good.
+0 distance after 0 steps, and 1 after 1.
+So probably, it looks like our implementation of walk is OK.
+So maybe we should look at the way we're calling it.
+So we get rid of this debugging code here and go back.
+And if we look at the way we're calling it,
+we see, in fact, here is the problem.
+We're calling it with num trials.
+And so it would take using 100 as the steps,
+really, when of course that isn't what we wanted to do.
+This should have been num steps.
+So let's change that to num steps.
+So now, let's try our sanity check again.
+
+Well, this looks a lot better.
+0 is 0.
+1 is 1.
+And 2 steps is 1.218.
+Much more plausible.
+And as we see, the mean distance is growing
+with the number of steps.
+And it's going the way we predicted it would grow.
+All right, let's go back and try our original case
+and see if that now looks more plausible.
+So I think we looked at 10 steps, 100 steps, 1,000 steps,
+and 10,000 steps.
+See what we get if we run that.
+
+It takes a little longer.
+I guess that's a good sign.
+And these results are really much more encouraging.
+We do see that, in fact, as expected,
+the mean distance grows with the number of steps.
+So it doesn't mean it's right.
+But at least it looks much more plausible than we had before.
+Let's see how our heat-seeking drunk does.
+So we'll look at our cold drunk that we had before.
+Now, we'll simulate both the cold drunk and the usual drunk
+to see if they do something differently.
+To refresh your memory, notice that the cold drunk,
+when he wanders northward, moves only 0.9 steps.
+And when he moves southward, 1.1 steps.
+The function simAll all is probably
+a bit of overkill for only two classes of drunks.
+But it'll come in handy when we want
+to do more drunks, more classes than that.
+It's furthest argument is a tuple of classes of drunks.
+And then it runs Drunk Test for each class.
+All right, let's go over to the code window and run it.
+We'll comment out this.
+
+Uncomment that.
+
+And let's see what happens.
+
+Well, if we look at it, it appears
+that the cold drunk does move away from the origin faster
+than the usual drunk.
+So for example, the usual drunk, the walk
+of 10,000 steps, the mean was 90.
+The max was 223.
+And for the cold drunk, the mean was 495, and the max, 654.6.
+So indeed, something different is happening, not surprisingly.
+The two classes behave differently.
+But I hope you think this printout is not
+a very convenient way to visualize
+what's actually happening.
+So in the next and I should say last segment of this lecture,
+we'll look at using plotting to visualize how the drunks are
+actually moving and to understand
+why we see this difference in total distance.

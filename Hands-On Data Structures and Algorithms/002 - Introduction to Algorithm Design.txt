@@ -1,0 +1,223 @@
+An algorithm is a sequence of steps that should be followed in order to complete a given task/problem.
+
+Summarized below are some important reasons for studying algorithms:
+
+- Essential for computer science and engineering
+- Important in many other domains (such as computational biology, economics, ecology, communications, ecology, physics, and so on)
+- They play a role in technology innovation
+- They improve problem-solving and analytical thinking
+
+Performance analysis of an algorithm
+------------------------------------
+
+The performance of an algorithm is generally measured by the size of its input data, n, and the time and the memory space used by
+the algorithm. The time required is measured by the key operations to be performed by the algorithm (such as comparison operations),
+where key operations are instructions that take a significant amount of time during execution. Whereas the space requirement of an
+algorithm is measured by the memory needed to store the variables, constants, and instructions during the execution of the program.
+
+
+1. How efficient are my algorithms (space and time)?
+
+Want to understand the efficeincy of programs
+---------------------------------------------
+Reason 1:
+How can we reason about an algorithm in order to predict the amount of time it will need to solve a problem of a particular size?
+
+Reason 2:
+How can we relate choices in alogorithm design (iteratively, recursively, with a particular type of structure) to the time efficiency of the resulting algorithm?
+    - Are there fundamental limits on the amount of time we will need to solve a particular problem?
+
+MIT lecture
+https://www.youtube.com/watch?v=o9nW0uBqvEo
+
+Accompanying slides
+D:\Users\parri\OneDrive\9999 Development\Pyhton Notes\MIT Course
+
+https://www.cs.cornell.edu/courses/cs3110/2012sp/lectures/lec19-asymp/review.html
+
+https://stackoverflow.com/questions/2307283/what-does-olog-n-mean-exactly
+
+
+
+How to measure efficeincy?
+
+Options:
+--------
+1. time it.
+   problems:
+   a. running time varies between implementations (we shouldn't care about if algo 1 that uses a loop with a couple of more steps than algo 2. i.e. don't conflate
+      implementation influence on time with algo influence on time.)
+   b. running time varies between computers
+   c. running time is not predictable based on small inputs
+2. count operations X input
+   problems:
+   a. count depends on implementation
+   b. no clear defintion of which operations to count (really think about what are the operation we want to count. do ops all take the same amount of time - no)
+3. abstract notion of order of growth
+
+To find worse case relative to largest input size we use big O notation. Where 'o' measures how much time is needed to compute as the size of the input itself grows
+
+EXACT STEPS vs O() (focus on worse case)
+
+def fact_iter(n):
+    """assumes n and int >= 0"""
+    answer = 1                      # 1 step; set answer to equal 1 (additive constant)
+    while n > 1:                    # 1 step; test n is greater than 1
+        answer *= n                 # 2 steps;  multiple answer by n and then set to answer
+        n -= 1                      # 2 steps; subtract 1 from n and then set it to n
+    return answer                   # 1 step; retunr answer (additive constant)
+
+- computes factorial
+- number of steps: 1 + 5n + 1
+
+- worst case asymptotic complexity: O(n) - linear growth ; 'n' = input size
+   - ignore additive constants
+   - ignore multiplicative constants
+
+
+Simplification (solve examples
+------------------------------
+
+- drop constants and multiplicative factors
+- focus on DOMINANT terms
+
+O(n^2)      : n^2 + 2n + 2
+
+O(n^2)      : n^2 + 10000n + 3^1000 # even though the algorithm is inefficient i.e., it takes 10000 steps to do something we can ignore it.
+                                      I'm interested in growth determined by n^2.
+                                      When given a polynomial expression, it's the highest order term that captures the complexity.
+
+O(n)        : log(n) + n + 4        # This term is order n, because n grows faster than log of n
+
+O(n log n)  : 0.0001*n*log(n) + 300n
+
+O(3^n)      : 2n^30 + 3^n           # exponentials (base^n) are much worse than powers (n^30) *
+
+*  power is the value of the product of the base number raised to an exponent. It's going to take a big power of n to get there, but it will get there.
+
+
+Analyzing  programs and their complexity
+----------------------------------------
+
+Sequential pieces of code, use law of addition for order of growth, expressed as big O i.e., O():
+
+O(f(n)) + O(g(n)) is O(f(n) + g(n))
+
+Example:
+
+for i in range(n):          # linear O(n)
+    print('a')
+for j in range(n*n):        # O(n*n) = O(n^2)
+    print('b')
+
+is O(n) + O(n*n) = O(n+n^2) = O(n^2) because of dominant term
+
+Nested pieces of code, use law of multiplication for order of growth for inner and outer parts multiplied together to get overall order of growth.
+
+Used with nested statements/loops
+
+O(f(n)) * O(g(n)) is O(f(n) * g(n))
+
+Example:
+
+for i in range(n):          # --------
+    for j in range(n):      # - O(n) |-- n loops, each O(n) = O(n)*O(n) = O(n*n) = O(n^2)
+        print('a')          # /------|
+
+is O(n)*O(n) = O(n*n) = O(n^2) because the outer loop goes n times and the inner loop goes n times for every outer loop iteration.
+
+Complexity classes
+------------------
+- O(1)          denotes constant running time
+- O(log n)      denotes logarithmic runnning time
+- O(n)          denotes linear running time
+- O(n log n)    denotes log-linear running time
+- O(n^c)        denotes polynomial running time (c is a constant)
+- O(c^n)        denotes exponential running time (c is a constant being raised to a power based on size of input i.e, n)
+
+Here's the difference between constant, log, linear, log linear, log linear squared, and exponential...
+Complexity classes...
+CLASS           n=10    =100    =1000    =1000000
+O(1)            1       1       1        1
+O(log n)        1       2       3        6
+O(n)            10      100     1000     1000000
+O(n log n)      10      200     3000     6000000
+O(n^2)          100     10000   1000000  1000000000000 (quadratic)
+O(2^n)          1024    big #   giant #  good luck #   (exponential) 
+
+* exponential always much worse than a power or quadratic expression
+
+Examples of algorithm complexity...
+
+Constant O(1): Same amount of time to run, independent of size of the input
+-------------
+Search unsorted list
+- complexity independent of inputs
+- very few interesting algorithms in this class, but can often have pieces that fit this class
+- can have loops or recursive calls, but ONLY IF number of iterations or calls are independent of size of input
+
+O(log n): as the input size grows, the number of operations grows very slowly
+--------
+Bisectional search of ordered list
+def bisect_search1(L, e):
+    if L == []:                                                  # - constant O(1) , doesn't depend on the size of the input, 'n'
+        return False                                             # - constant O(1)
+    elif len(L) == 1:                                            # - constant O(1)
+        return L[0] == e                                         # - constant O(1)
+    else:
+        half = len(L)//2                                         # - constant O(1) ; / = return a floating point value. // = rounds down the answer to a whole number (integer)
+        if L[half] > e:
+            return bisect_search1( L[:half], e)                  # - a. O(n) NOT constant, copies list, 'L[:half]', n/2 to n/4 to n/8 ... b.  O(log n) , only half list to search*
+        else:
+            return bisect_search1( L[half:], e)                  # - a. O(n) NOT constant, copies list, 'L[half:]', n/2 to n/4 to n/8 ... b.  O(log n) , only half list to search*
+
+O(log n) * O(n) = O(n log n)
+Note that the length of list to be copied is also havled on each recursive vall
+    - turns out that total cost to copy is O(n) and this dominates the log n cost due to the recursive calls
+Complexity of recursion is O(log n) - where n is len(list)
+
+* If original range is of size n, in worst case down to range of size 1 when n/(2^k) = 1; or when k = log n
+2^3 = 8 -> log2 8 = 3
+2^k = N -> log2 N = k
+
+- O(log N) is a common runtime complexity.
+- Examples include binary searches, finding the smallest or largest value in a binary search tree, and certain divide and conquer algorithms.
+- If an algorithm is dividing the elements being considered by 2 each iteration, then it likely has a runtime complexity of O(log N).
+
+Exponent and power
+------------------
+
+https://www.cuemath.com/algebra/difference-between-exponent-and-power/
+
+https://www.khanacademy.org/math/cc-sixth-grade-math/x0267d782:cc-6th-exponents-and-order-of-operations/x0267d782:powers-of-whole-numbers/v/the-zeroth-power
+
+Exponent and power are terms used when a number is multiplied by itself a specific number of times. The difference between exponent and power
+is a minor observation that most of the time is neglected.
+
+When a number is multiplied by itself a finite number of times, the number being multiplied is called the base number, and the number of times
+it is beign multiplied is called the exponent. This expression is called nth power of the given number. We can say that an exponent is the number
+of times a given number (base) is multiplied by itself and power is the value of the product of the base number raised to an exponent.
+
+Exponential notation of numbers helps us to express and represent extreamly large and small numbers in a convenient way. For example,
+1000 can be represented as 1X10^3 whereas 0.0007 can be represented as 7X10^-4.
+
+Definiton:
+The exponent of a number is defined as the number of times a number is multiplied by itself. For example 6^4, we can say 6 is the base, and 4 is
+the exponent.
+
+Power is defined as the whole exporession of repeated multiplication that includes the base and exponent. In other words, 6^4 is called the 4th
+power of 6. Hence, the defintion of power is for the whole expression of exponential form.
+
+Exponent
+An exponent is the number of times a given number is being multiplied by itself.
+
+Power
+The expression when a number is being multiplied by itself n number of times is called the nth power of the given number.
+
+Quadratic equation
+------------------
+An equation where the highest exponent of the variabe (usually 'x') is a square (^2)
+
+The root of 'quad' comes from latin, where it has the meaing 'four, fourth." This meaning is found in such words as quad, quadrangle, quadrant, quadruple, quadruplet.
+
+It is alson called an "Equation of Degree 2" (because of the "2" on the x)

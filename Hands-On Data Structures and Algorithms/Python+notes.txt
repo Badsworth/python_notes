@@ -1,0 +1,80 @@
+https://learning.oreilly.com/library/view/hands-on-data-structures/9781801073448/Text/Chapter_1.xhtml#_idParaDest-39
+
+Python’s collections module
+---------------------------
+The collections module provides different types of containers, which are objects that are used to store different objects and provide
+a way to access them. Before accessing these, let’s consider briefly the role and relationships between modules, packages, and scripts.
+
+A module is a Python script with the .py extension that contains a collection of functions, classes, and variables.
+
+A package is a directory that contains collections of modules; it has an __init__.py file, which lets the interpreter know that it is a package.
+
+A module can be called into a Python script, which can in turn make use of the module’s functions and variables in its code. 
+n Python, we can import these to a script using the import statement. Whenever the interpreter encounters the import statement,
+it imports the code of the specified module.
+
+The collection Module in Python provides different types of containers. A Container is an object that is used to store different objects and
+provide a way to access the contained objects and iterate over them. Some of the built-in containers are Tuple, List, Dictionary, etc. In this
+article, we will discuss the different containers provided by the collections module.
+https://www.geeksforgeeks.org/python-collections-module/
+
+Example
+The Python code for a module named aname normally resides in a file named aname.py. Here's an example of a simple module, support.py
+def print_func( par ):
+   print "Hello : ", par
+   return
+
+The import Statement
+You can use any Python source file as a module by executing an import statement in some other Python source file. The import has the following syntax −
+import module1[, module2[,... moduleN]
+
+When the interpreter encounters an import statement, it imports the module if the module is present in the search path. A search path is a list
+of directories that the interpreter searches before importing a module. For example, to import the module support.py, you need to put the following command at the top of the script −
+
+#!/usr/bin/python
+
+# Import module support
+import support
+
+# Now you can call defined function that module as follows
+support.print_func("Zara")
+
+The from...import Statement
+Python's from statement lets you import specific attributes from a module into the current namespace. The from...import has the following syntax −
+from modname import name1[, name2[, ... nameN]]
+
+For example, to import the function fibonacci from the module fib, use the following statement −
+from fib import fibonacci
+
+This statement does not import the entire module fib into the current namespace; it just introduces the item fibonacci from the module fib into the
+global symbol table of the importing module.
+
+The from...import * Statement
+It is also possible to import all names from a module into the current namespace by using the following import statement −
+from modname import *
+
+This provides an easy way to import all the items from a module into the current namespace; however, this statement should be used sparingly.
+
+Locating Modules
+When you import a module, the Python interpreter searches for the module in the following sequences −
+
+- The current directory.
+
+If the module isn't found, Python then searches each directory in the shell variable PYTHONPATH.
+
+If all else fails, Python checks the default path. On UNIX, this default path is normally /usr/local/lib/python/.
+
+The module search path is stored in the system module sys as the sys.path variable. The sys.path variable contains the current directory, PYTHONPATH,
+and the installation-dependent default.
+
+The PYTHONPATH is an environment variable, consisting of a list of directories. The syntax of PYTHONPATH is the same as that of the shell variable PATH.
+
+Namespaces and Scoping
+
+Variables are names (identifiers) that map to objects. A namespace is a dictionary of variable names (keys) and their corresponding objects (values).
+
+A Python statement can access variables in a local namespace and in the global namespace. If a local and a global variable have the same name, the local
+variable shadows the global variable.
+
+Each function has its own local namespace. Class methods follow the same scoping rule as ordinary functions.
+

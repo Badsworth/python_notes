@@ -1,0 +1,245 @@
+...
+Let's look at where we are.
+We presented a related collection
+of data abstractions, all related to random walks,
+of course.
+Talked about structuring and testing simulations,
+and printed the results of some of those simulations.
+We concluded by commenting that it would be easier
+to see what was going on if we produced some plots, probably
+not truly necessary for something this simple.
+But I was looking for an excuse to introduce you
+to a bit more Python and to some generally useful programming
+techniques.
+So off we'll go.
+Since we're showing a number of different kinds of drunks
+from the same plot, we will associate
+a distinct presentation style with each type of drunk
+so it will be easy to visually differentiate among them.
+The style will have three aspects-- the color
+of the line and the marker, the shape of the marker,
+and the kind of the line, e.g., solid or dotted.
+We see in the code here that we're
+going to have a style iterator class that
+will rotate through the sequence of styles defined
+by the arguments to init.
+Self dot styles is treated as a ring.
+We return each style in it until we've returned them all,
+then we go back to the start.
+As it happens, we don't really need a ring here
+because I'm going to supply just the number of styles we need.
+But as with a lot of the code, it's more complicated
+than we need for a simple example,
+but I wanted to show you how you would do
+things in a more general way.
+This simulation is quite similar to what we
+looked at in the last segment.
+Notice that there is one print statement in it.
+That's not there to get interesting output.
+We may not even look at the output from that print
+statement.
+It's there so that when I run this simulation,
+I can see that it's making progress.
+This is something I do whenever I'm writing something
+that I expect to run for a long time,
+so that I can take comfort in knowing
+I'm getting towards the end.
+This is a lot of code.
+Actually, it's not a lot of code.
+It just looks like a lot of code since it's in on a slide,
+but there's not much here that you haven't seen before.
+Notice that I am initializing and then
+using the style iterator here.
+So now let's go over the code window
+and run it and see what we get.
+
+So you can see it's telling us that we're making progress,
+slowing down as the simulation gets longer.
+
+Now we're done.
+Let's see what we got.
+So as you can see, quite a difference
+in the progress of the two.
+The trends are kind of interesting.
+The usual drunk seems to be moving away from the origin
+relatively slowly, but our heat-seeking drunk
+is moving away quite rapidly along this line.
+Eyeballing it, the usual drunk seems
+to be moving away at a little bit less
+than the square root of the number of steps.
+But the heat-sinking drunk seems to be
+moving away close to linearly, with a constant multiplier
+of oh, what-- of 500 over 1,000, or about
+0.05 in the number of steps.
+So we might wonder-- why is this drunk moving at that rate?
+Well, let's produce a different plot
+to get an idea of why these two drunks are
+moving as they're moving.
+So the first function-- get final locations--
+returns where a walk ends.
+Notice that up till now we've only
+looked at how far they've gone.
+We've not actually chosen the location.
+Here, quite straightforwardly, we're
+getting the location of each walk's end.
+This function-- plot locs-- which I've only just shown
+you part of, hence the dot dot dots
+at the bottom, plots the ending locations.
+It also computes the average x and y distance at the walk's
+end from the origin.
+Notice, by the way that I'm converting the list of x
+and y locations to arrays.
+Why am I doing this?
+Because this allows me to take the absolute values
+of the elements very conveniently.
+The missing code contains nothing
+that you haven't seen before.
+As always, by the way, we'll make the whole program
+available for you to look at online if and when you want to.
+All right.
+Let's go and run this version now.
+
+Uncomment this.
+
+As usual, by the way, I'm initializing the seed with zero
+just so that the results are predictable.
+
+Now you can see what happens.
+By the way when I don't put in that convenient print statement
+to show progress.
+We have this long pause and we're wondering-- is it
+really making progress?
+I certainly hope so.
+
+All right.
+Let's see what we got.
+
+Well, now we can see why the distances grew in the way
+we saw in the last plot.
+While there are a few scattered outliers in both cases,
+you can see some here and a few here,
+the points essentially form a circle, or close to a circle.
+For the usual drunk, the circle is centered on the origin,
+with an average radius, as we can see up here, of around 55.
+For the cold drunk, the radius is not much different.
+But the center has moved considerably.
+You can see we're all the way down here around minus 500.
+So that explains why the distance from the origin
+is so much greater.
+Why is it down there?
+On average, every four steps, the cold drunk
+moves down once and up once.
+After these two moves, the drunk is 0.2 steps lower than when
+those two moves started.
+So on average, he'll move down about 0.2 steps
+for every four steps he takes.
+I.e., for every step he takes, he
+moves down about 0.05, which explains why this line was
+on the angle it's on.
+
+OK.
+We've looked at subclasses of drunk.
+Now let's see what happens if we change
+the properties of the field.
+
+Let's add wormholes.
+A wormhole, or Einstein-Rosen Bridge for those of you
+who are closet astrophysicists, is
+a hypothetical topological feature
+that's a shortcut connecting two separate points in space time.
+We're not going to do anything that fancy.
+Odd field, a subclass of field, has what I'm calling wormholes.
+So I'm adding this extra attribute, which we
+didn't have for regular fields.
+That attribute is a dictionary that
+maps locations to locations.
+For instances of odd field, this dict
+is initialized with some randomly chosen locations
+as keys and other randomly chosen locations as values.
+What we see here in move drunk is
+that when a drunk lands on a location
+in the keys of wormholes, he's instantaneously
+teleported to the value associated with that key,
+as we see in this simple if statement.
+To compare fields and odd fields,
+I wrote a function that plots not the distance of a walk, not
+the final location, but the actual trajectory.
+And just so we can see what's going on,
+we're going to look at the trajectory of a single walk
+rather than many walks.
+Trace walk is similar in structure
+to the simulations we've been looking at.
+The main difference is that rather than iterating over
+drunks, we're now going to iterate over types of fields.
+When we run it, whoops, here's the rest of it, part 2.
+Nothing very interesting in part 2.
+All it's doing is putting titles and labels on the graph
+and putting the legend in what it thinks is the best spot.
+Well, here's what we get when we run it--
+kind of interesting to look at.
+We can see that, for the field shown by these blue x's,
+the drunk is moving at random in a fairly confined space.
+But for the odd field, all sorts of odd things happen.
+Why, by the way, does it look like there's
+so many more points for the odd field
+than for the regular field?
+It's because in the regular field,
+the drunk revisits the same spot a lot of times,
+and so these little plus signs are just
+put right on top of each other, and you
+can't tell that there are more than one in a location.
+While, because of the wormholes, in the odd field
+the drunk shows up in lots of different places.
+And so there's less overlap.
+All right.
+What's the point of all of this?
+The point is not the simulations themselves,
+but how we built them.
+And that's the take home here.
+So we started by defining three classes corresponding
+to domain specific types-- location, field and drunk.
+We then built functions corresponding to one trial,
+in multiple trials, and reporting functions.
+Now the details of these things were quite different,
+as we simulated locations and distances and trajectories,
+we changed things a bit.
+But the structure was always basically the same.
+Simulate one.
+Simulate multiple trials.
+Present the results.
+When we looked at drunks, we created two classes.
+The simulation had an argument of type class,
+so that we could easily investigate
+both classes of drunks.
+This is very useful.
+As we proceeded through the lecture,
+we made a series of incremental changes to the simulation
+so that we could investigate different questions.
+This is a very normal approach.
+One typically starts by getting some simple simulation working,
+the goal being a version that you're pretty sure
+is doing the right thing.
+And you remember when we started it,
+we did do a test to make sure at least for some simple cases it
+was doing the right things.
+Once we get the simple version working,
+we elaborated upon it a step at a time
+to investigate different questions.
+At the end, we introduced this weird subclass of field.
+Not because I want you to know about fields with wormholes,
+but because I wanted to show you how easy
+it was to change the simulation to do something that appeared
+to be radically different.
+And also something that would be quite
+hard to model analytically.
+
+OK.
+What's coming up next?
+We spent this lecture looking at a simulation
+and using it to draw some conclusions about random walks.
+Going forward, I want to get more serious
+about stochastic simulations, probabilistic thinking,
+and in particular, I want to focus
+on understanding how much confidence we should have
+in the result of a simulation.
+All of that will be covered in the next lecture.

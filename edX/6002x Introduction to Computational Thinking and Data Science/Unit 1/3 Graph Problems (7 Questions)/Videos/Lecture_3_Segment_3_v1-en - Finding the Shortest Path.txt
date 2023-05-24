@@ -1,0 +1,261 @@
+...
+We ended the last segment looking at a shortest path
+problem.
+Now it's time to look at ways to solve it.
+We'll look at two algorithms, depth first search and breadth
+first search.
+We'll start with depth first search.
+It's quite similar to the left first depth first method
+of enumerating a search tree we looked at in a lecture two.
+Think of it as a way of enumerating all paths,
+from the starting node to the ending node,
+and then once we got them all, we just
+pick one of the shortest.
+The main difference from the tree search we looked at
+is that graphs, as we have seen, might have cycles.
+So we have to keep track of which
+nodes we've visited so we don't visit them over and over again.
+The algorithm begins by choosing one child of the start node.
+It then chooses one child of that node,
+and so on, going deeper and deeper
+until it either reaches the goal node or a node
+with no children.
+The search then backtracks, returning
+to the most recent node with children
+that it has not yet visited.
+When all paths have been explored,
+it chooses the shortest path, assuming that there is one,
+from the start to the goal.
+Now because there might be cycles in the graph,
+we keep track of the nodes we've visited
+so we don't visit them again.
+Also, if we look at the code, we'll
+see that rather than checking all of the paths
+at the end of the algorithm, we keep
+track of the shortest path from the start to the end
+that we have found so far.
+Whenever we find a new path, we discard it
+if it is not shorter than the best we've already found.
+Also, a slight optimization, we don't
+bother exploring paths that are longer than a solution we've
+already found.
+And as you can see, we do all of this in about a dozen lines
+of recursive code.
+I should warn you however, that when we go to the code window,
+the code will be a bit longer than what you see here,
+and that's because I added some printing
+code so that we could see what the algorithm does
+when we run it.
+We call DFS from a wrapper function
+that has two fewer arguments than DFS.
+That makes sense.
+A client that wants to find a path between nodes
+should only have to worry about the graph in those two nodes.
+The arguments path and shortest in DFS
+are artifacts of the algorithm.
+The path is used to keep track of where
+we are in our exploration of the graph,
+and shortness is used to keep track of the best
+solution found so far.
+
+The wrapper function gets the recursion started properly
+by initializing path to empty and shortest to none,
+and as I said, provides an appropriate level
+of abstraction.
+All right, let's go over the code window and give it a try.
+So the first thing we see over at the code
+is I've defined a helper function, print path.
+And all that's done is so that we
+can look at the result of DFS, nothing very interesting
+in that.
+As I mentioned earlier, I've augment to the DFS
+that we saw on the PowerPoint with a to print function--
+a to print argument rather-- that we
+can use to decide whether or not to print what's going on.
+We'll now run it.
+
+We'll run it using a function called test SP
+for test shortest path, that takes
+a source and the destination and builds a graph,
+and finds the shortest path from that graph, and then prints it.
+All right let's try and find the shortest path from Chicago
+to Boston and see what happens.
+
+I'm going to get rid of this is false, which we don't need.
+
+OK let's try and find the shortest path from Chicago
+to Boston.
+
+All right, so here we have the shortest path from Chicago
+to Boston, and let's go over and look at what
+it's doing on the graph.
+So we didn't find a path.
+Let's look at why we didn't and what the algorithm actually
+did as we ran it just to make it easier to follow,
+we'll go back to the PowerPoint where
+we have a pictorial representation of the graph.
+So the first thing that happened is
+we initialized the path, Chicago.
+Then we went to explore Chicago to Denver.
+And then from Chicago to Denver to Phoenix.
+We got to Phoenix and there was no place to go,
+so we then had to back up to Denver.
+And the next path was Chicago to Denver to New York.
+While there is an edge leaving New York, it goes to Chicago.
+But since he'd already been to Chicago
+we don't visit it again.
+There's no place else to go from New York,
+so we've run out of paths to explore.
+
+And so we're done.
+And we conclude there is no path from Chicago to Boston.
+All right, let's look at an example where there is a path.
+So here we'll try and call test SP with the arguments Boston
+and Phoenix.
+
+And again, let's go look at it on the PowerPoint.
+You can see that we did succeed in finding
+a path, which is Boston, New York, Chicago, Denver, and then
+Phoenix.
+So we start with Boston.
+We then get Boston, Providence.
+From Providence you can get to Boston,
+but we've already visited Boston,
+so we don't go back there again.
+So we now try Providence to New York.
+And then New York to Chicago, Chicago to Denver, Denver
+to Phoenix.
+We found a path, hooray.
+So now we can initialize the indication
+of the best path we've found so far to this path, which
+has-- let's see, one, two, three, four, five hops.
+
+We go back and we say, well, what else could
+we have done from Phoenix?
+Well we already visited New York, so we're not going there.
+We continue to back up, and we'll get all the way back
+to Boston.
+And then we say, well, let's see what
+happens if we go to New York instead of Providence.
+And we get Boston, New York, Chicago.
+Boston, New York, Chicago, Denver.
+Denver, Phoenix, and now we found a shorter path.
+So that's our best path so far.
+We back up all the way to New York.
+You don't want to go there again.
+And finally we conclude that's our shortest path.
+So that's the way depth first search looks.
+You can see that we end up exploring quite a few paths,
+and backtracking plays an important role there.
+Now let's look at what happens when
+we try breadth first search.
+I did, after all, promise you two algorithms.
+So here's the breadth first search algorithm.
+The code is a bit more complicated
+in depth first search, because it is exploring many paths
+in parallel, not one at a time.
+The variable path queue is used to store
+all of the paths currently being explored.
+Each iteration starts by removing a path from the path
+queue and assigning that path to temp path.
+If the last node in temp path is end,
+temp pass is the shortest path and is returned.
+Otherwise a set of new paths is created,
+each of which extends temp path by adding one of its children.
+Each of these new paths is an added to path queue.
+Notice, by the way, that it finds only one solution.
+As soon as it finds a solution, we
+see that here, it just returns it.
+Why is this OK?
+It's because the way breadth first search works,
+it explores all paths with n hops
+before exploring any path with more than n hops.
+Since it's exploring the paths in length order,
+we know that the first path it finds is a shortest path.
+There may be another path that's equally short,
+but it will not be shorter.
+Now suppose we want to do a weighted shortest path where
+we want to minimize the sum of the weights of the edges,
+not the number of edges.
+DFS can be easily modified to do this, but the BFS cannot,
+because what we're doing in breadth first search is where
+enumerating the paths in length order, as I've said,
+not in weighted order, not in the sum of the weights.
+Consequently, we can't guarantee that the first path we find,
+which will be the one with the shortest number of hops,
+will have the shortest total weight.
+Let's run breadth first search and compare
+what it does to what depth first search does.
+So we're going to run both of them on the Boston
+to Phoenix problem.
+
+As it happens, it appears that there are fewer steps
+to breadth first search.
+There is no backtracking.
+That doesn't mean that there will always
+be fewer stats, because, again, we're
+exploring things in a breadth first way,
+here it happens to be.
+The important thing to notice is we found the shortest
+path in both cases, and, in fact,
+the same path in these cases.
+Now, suppose we decide we don't want the shortest path,
+but we want the shortest weighted path.
+That is to say we don't want to minimize the number of edges.
+We want to minimize the sum of the weights of the edges.
+
+DFS can be very easily modified to do this.
+If you remember the code, there was a place
+where we just said is this the shortest so far,
+and there shortest was defined by number of hops.
+But we could easily have defined shortest
+to be sum of the weights instead.
+So it's a trivial modification.
+
+BFS on the other hand, can't be modified
+to do this since the shortest weighted path may
+have more than the minimum number of hops.
+The key to breadth first search is
+we are exploring the paths in order of most desirable first.
+On the other hand, looking at number of hops
+is not necessarily most desirable
+in terms of total weight.
+Let me recap as we sort of close our very brief segment on graph
+theory.
+The most important thing I want to say is graphs are cool.
+They're really the best way to create a model of many things.
+And you really can't imagine modern computing working
+without graphs because there are so
+many times when we want to capture relationships
+among objects.
+Another thing is that people have
+studied graphs for so long that they've developed
+a raft of really good algorithms for solving graph optimization
+problems.
+And so often all we have to do to solve a problem is figure
+out how to cast it into this framework
+of graphed optimization, and then we
+have a solution that's ready made.
+Among those solutions depth first and breadth first search
+are very important and can be used
+to solve many important problems.
+Now that we've ended our brief excursion into graph theory
+what's next?
+Next is what I think is the most exciting part
+of the subject, modeling situations
+with unpredictable events.
+But before we can get to that, I want
+you to know about how to use Python to produce plots.
+That's because we're going to make heavy use of plotting
+in the lectures.
+If you took 6.00.1x, you probably already know how
+to produce plots-- at least you should.
+But if you didn't, we're making available to you
+at no extra charge.
+Lecture four, in our course, which is the plotting lecture
+from 6.00.1x.
+That lecture is given by Eric Grimson,
+and it's really a very good lecture.
+If you didn't take 6.00.1, feel free to skip this lecture
+unless you've already forgotten it,
+in which case I suggest you refresh your memory.

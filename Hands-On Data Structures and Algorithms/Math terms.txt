@@ -1,0 +1,96 @@
+Coefficient
+A coefficient is a number—the constant—in a variable term in a mathematical expression. The University of Chicago gives
+the example of 3c + 8d, in which 3 and 8 are coefficients.
+
+Factor
+Every mathematical product contains two or more numbers. Those numbers are called factors.
+
+Fibonacci sequence
+Named after an early Italian mathematician, the Fibonacci sequence is a string of numbers where each number in the
+sequence is the sum of the two preceding numbers. For example, 0, 1, 1, 2, 3, 5, 8, 13, 21.
+
+Natural numbers
+Natural numbers are a part of the number system which includes all the positive integers from 1 till infinity and are also
+used for counting purpose. It does not include zero (0). In fact, 1,2,3,4,5,6,7,8,9…., are also called counting numbers.
+
+Rational numbers
+A rational number is a number that can be written in the form of a common fraction of two integers. In other words, it is
+a number that can be represented as one integer divided by another integer.
+
+Irrational numbers
+Irrational numbers are real numbers that can't be made by dividing two integers, which have no fractional parts. The
+decimals of irrational numbers go on infinitely. The most famous irrational number of all is pi.
+
+Logarithm
+Mathematicians used logarithms to determine the power to which a base or fixed number has to be raised to get to a given
+number. Math is Fun defines it simply as "How many of this number do we multiply to get that number?"
+
+Complex number
+Complex numbers are the combination of real numbers and "imaginary" numbers. Virtually every number is a real number
+since real numbers represent the value of a continuous quantity. Imaginary numbers are unusual numbers that give a
+negative result when squared.
+
+Reciprocal
+To find a number's reciprocal, mathematicians divide one by that number. For example, the reciprocal of 4 is 1/4.
+
+Polynomial
+a polynomial is an expression consisting of indeterminates (also called variables) and coefficients, that involves only
+the operations of addition, subtraction, multiplication, and positive-integer powers of variables. An example of a
+polynomial of a single indeterminate x is x2 − 4x + 7. An example in three variables is x^3 + 2xyz^2 − yz + 1.
+
+Factoring
+In mathematics, factoring, also referred to as factorization, involves breaking down a number or mathematical objects
+(if possible) into a product of several factors. E.g., Factor 24: 24 = 2 × 2 × 2 × 3
+It is also possible to factor other mathematical objects, such as polynomials. E.g., Factor x^2 - 16:
+x^2 - 16 = (x - 4)(x + 4)
+The above is an example of an expression that is relatively easy to factor. The format of the expression, a2 - b2, is
+referred to as a difference of squares.
+
+When you see an expression of this format, you can factor it to (a - b)(a + b) as shown above.
+
+Simplify
+Simplification is the process of "simplifying" a mathematical expression, which most often results in the expression
+being shorter and easier to work with. Simplifying an expression can involve a range of operations such as basic arithmetic,
+combining like terms, factoring, using exponent or logarithm rules, trigonometric identities, and more.
+
+1. Simplify the expression x + 3x + 4. x + 3x +4 = 4x + 4
+
+home / algebra / expressions and equations / simplify
+Simplify
+Simplification is the process of "simplifying" a mathematical expression, which most often results in the expression being
+shorter and easier to work with. Simplifying an expression can involve a range of operations such as basic arithmetic,
+combining like terms, factoring, using exponent or logarithm rules, trigonometric identities, and more.
+
+One of the earliest points we may encounter simplification is learning about fractions. Though simplifying fractions is used
+within the study of algebra, we won't go into detail about how to simplify fractions here. Refer to the simplifying fractions
+page for more detail. Instead, we will look at simplification in an algebraic context.
+
+Simplifying polynomial expressions
+Polynomial expressions are expressions that only involve the operations of addition, subtraction, multiplication, and
+non-negative integer exponents of variables. If the expression involves division of a variable, it is a rational expression
+(discussed later), not a polynomial expression.
+
+There are many ways to simplify an expression, but generally, we need to follow order of operations while combining like terms,
+factoring, or maybe expanding. We can also reduce fractions or terms that share the same factors, whether they are variables or
+constants. There are numerous tricks or patterns for simplifying that we can notice with practice, and the ability to simplify
+expressions is a necessary skill within the study of algebra, as well as many other areas of mathematics.
+
+Examples
+
+1. Simplify the expression x + 3x + 4.
+
+x + 3x + 4 = 4x + 4
+
+In this case, simplifying the expression just involved combining the like terms, x and 3x. Depending on the goal, we could also
+factor the expression 4x + 4. 4x + 4 = 4(x + 1)
+
+2. Simplify (x + 2)^2 + 4x - x^2 + 3(4 + 2).
+
+Start by adding the terms in parenthesis and expanding (x + 2)^2.
+x^2 + 4x + 4 + 4x - x^2 + 3(6)
+
+Then we can start combining like terms.
+8x + 4 + 18 = 8x + 22
+
+This is in simplest form, unless we want to have it in factored form, and see that 8 and 22 share a factor of 2:
+8x + 22 = 2(4x + 11)

@@ -1,0 +1,185 @@
+...
+Welcome to the third and last segment of lecture five.
+In the previous segment, we use simulations to check
+our probability calculations.
+It was really unnecessary there, but it was kind of fun.
+Now I want to get a bit more serious about simulations
+and talk about what exactly a simulation model is
+and how we use it.
+Think of a simulation model as a description
+of a set of computations that provide
+useful information about the possible behaviors of something
+in the real world, that is, of the system being modeled.
+Simulation models are typically most useful
+when there is more than one possible behavior,
+but that's certainly not the only situation
+in which simulations are useful, as we will
+see as the course continuous.
+Simulation models are descriptive, not prescriptive.
+They're used to tell us what might happen,
+but they don't tell us how to make something happen.
+This is in direct contrast to optimization,
+which as we've seen, provides a prescription
+for reaching some goal.
+Finally, and this is really important to remember,
+a simulation, like any model, is only
+an approximation to reality.
+As George Box, one of the giants of 20th century statistics
+said, all models are wrong, but some are useful.
+So don't ever feel too confident about your simulation model.
+Remember, it's a model.
+It's not reality.
+All right why are simulations so useful?
+An important thing is that they can
+be used to model systems that are mathematically intractable,
+that we can't write a simple set of equations and solve them.
+For example, to predict the future climate of the Earth,
+we simulate a bunch of interactions of the things
+that we believe are the most important drivers
+of the climate, atmosphere, oceans, land surface, ice, et
+cetera.
+More mundanely, simulations are typically
+used to understand the behavior of say, a new processor chip
+before that chip is built. Even when
+it might be possible to formulate and solve
+a mathematical model of a complex system,
+simulations are often useful to extract
+useful intermediate results.
+Finally, as we will see in really the rest of the course,
+simulations lend themselves to development
+by successive refinement.
+We can start with a relatively simple simulation that
+captures only some aspect of the system we're interested in
+and then slowly, step by step, make it more complicated,
+more realistic.
+Additionally, simulations are great for answering
+what if questions.
+What if we change this to that?
+How will it affect the results?
+We're going to start by looking at a very simple simulation
+of something called a random walk.
+Why are we starting with random walks?
+Well, mostly because they're important in many domains.
+If you want to understand how stock prices move,
+a random walk is a great model to start with.
+On the right of my slide you can see
+I have a picture of a book that had a big impact on how people
+understand stocks.
+The idea that, in fact, there's nothing deep.
+They're moving around often, at least kind of, at random.
+Physicists, chemists, others use random
+walks to model diffusion processes,
+a very important element of a lot of science.
+Many of the things, some of which
+we'll talk about as we go.
+Since random walks are simple to simulate,
+they provide a good introduction to simulation,
+which is why I'm starting with them here.
+I should also, to be honest, admit
+I'm doing this not just to teach you about simulations
+and random walks, but as an excuse
+to cover some important programming
+topics which we haven't gotten to.
+We'll see how to use inheritance mechanisms to really make
+things much simpler and we'll see a lot more about plotting,
+both in random walks and throughout our use
+of simulations.
+Random walks are not new.
+They've been around a long time.
+They were first discovered, I guess,
+is the right word by Robert Brown in 1827
+looking at particles of pollen floating in a liquid.
+He didn't have this beautiful animation,
+but what you see here is red and blue particles moving around
+in a random way.
+After Brown, the next big step forward
+was Louis Bachelier, who wrote a thesis on the movement of stock
+prices and option prices.
+In 1900 it had almost no influence.
+It was considered very disreputable to be looking
+at the finance in those days, but looking backwards
+it was an important piece of work.
+And then many of you will recognize this picture,
+Albert Einstein in 1905 wrote a paper
+on the movement of small particles suspended
+in a stationary liquid demanded by the molecular kinetic theory
+of heat.
+That's a mouthful, but it was really
+an important paper that really changed
+a lot of the world of physics and science in general.
+OK, enough talking about fancy notions of random walks.
+Let's look at a simple walk that actually involves walking.
+So a television star, let's call him Homer,
+imagine that he's standing in the middle of a field that
+somehow inexplicably has been mowed to look
+like a sheet of graph paper.
+Now every second Homer takes a step in some random direction,
+random because he's had so much beer he
+has no idea where he's going.
+So let's ask the question if he takes
+1,000 such steps, what is the expected
+distance from the origin?
+Think about this for a minute.
+If he takes many steps is he likely to move ever
+further from the origin, or since he's moving at random,
+is he likely just wander back and forth and get to the origin
+over and over again, and maybe end up
+not far from where he started?
+So we're going to write a simulation that
+answers that question, but before we do that, we're
+going to do a hand simulation just to get an idea of what
+might be going on.
+So to simplify things let's begin
+by assuming that each step Homer takes is of length 1
+and is parallel to either the x-axis or the y-axis.
+So one possible first step would be a step south or down.
+He could take a step west, take a step north,
+or he could take a step east.
+In each case, we see that he's exactly one unit away
+from the origin.
+So we know how far you can get if you take steps of one walk.
+What about after two steps?
+Well, let's, without loss of generality,
+say he started here, one step east.
+After two steps, those are the places he could be.
+So we see looking at the picture that with a probability
+of 0.25, or a quarter, he'll be 0 units away.
+Got back where he started.
+With a probability of 0.25 he'll be 2 units away,
+with a probability of 0.25, he'll be 2 units away,
+and with a probability of 0.5, he'll be how many units away?
+The square root of 2 units away.
+Why the square root of 2?
+Well, we get back to our friend Pythagoras
+in the Pythagorean theorem, we can draw a triangle here.
+If we look at this distance, we see
+that we have a unit here of one, unit here of one,
+and then that will be that and so we know that
+by the Pythagorean theorem that c squared
+equals a squared plus b squared, so the hypotenuse here
+will be the square root of 2.
+Well what's expected distance from the origin
+after two steps?
+Well, we can write this out as a formula, and let's do it.
+So we know that with a probability
+of 0.25 he's going to be 0 steps away, so 0.25 times 0,
+plus with a probability of 0.25 he'll be how far away?
+Well, he could be here, which is two steps.
+And then there are these two possibilities,
+So that's 0.5 times the square root of 2.
+And if we do the arithmetic, we see that this equation
+is roughly equal to 1.2.
+So we see that after two steps he is, on average, further away
+than after one step.
+Well that doesn't tell us much about three steps.
+How about after a hundred thousand steps?
+I can assure you that I got tired of this hand simulation
+after three steps when I saw how quickly the number
+of possible paths was growing.
+I'm not going to do 100,000.
+We need a different approach to the problem.
+We'll use a simulation.
+We'll write some code to simulate large numbers of walks
+and see where the average location is
+relative to the origin, but we won't do this
+until the next lecture.

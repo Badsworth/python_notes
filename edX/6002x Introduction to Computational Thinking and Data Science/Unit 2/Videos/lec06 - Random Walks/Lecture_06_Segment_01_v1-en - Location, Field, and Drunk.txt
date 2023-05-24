@@ -1,0 +1,175 @@
+...
+We ended the last lecture asking how far from the origin
+a drunken actor was likely to get after 100,000 steps.
+We had simulated by hand a very short walk in that lecture.
+Clearly, the process was way too labor
+intensive to be practical for more than a few steps.
+So now, we're going to write a program
+to do the simulation for us.
+Almost all of the simulation we're going to look at
+have the same high-level structure.
+We have a function to simulate one trial, in this case,
+one walk.
+We'll have another function to run multiple trials,
+in this case, multiple walks, and accumulate the results.
+And finally, some function to prepare a report or some plots
+based on the accumulated results.
+In this case, we're going to report
+just the average distance from the origin.
+But before we get to that, I want
+to build some useful abstractions in order
+to make the simulation itself easier to write.
+This is something we do all the time.
+So for example, if I were to write a simulation designed
+to provide insight into the financial markets,
+I might start by building abstractions for things
+like stocks and bonds.
+In this case, since we're simulating walks,
+will have an abstraction for location, an abstraction
+for field, and finally, a collection of abstractions
+to deal with drunks.
+So now, let's look at the code.
+First, locations-- there's nothing particularly tricky
+here.
+But it does actually embody a significant design
+decision a bit different from the example we hand simulated.
+Earlier, in the hand simulation, we
+assumed that we could only move the drunk east, west, north,
+or south.
+And therefore, all locations were just
+described by a pair of integers.
+Here, at least for the moment, we're
+allowing delta x and delta y-- how far we move them vertically
+and horizontally-- to be floats.
+So now, we have a richer notion of location.
+Another design decision captured here
+is that locations are two dimensional.
+We have only x and y.
+There is no z-coordinate.
+It's suggesting that our drunk can't actually, say,
+fly in the air or bury himself in the ground.
+Other than that, nothing very interesting here.
+Finishing up location, here's the rest of the class.
+And the interesting function here
+is the one where we get the distance.
+And once again, we're just using the Pythagorean theorem
+to do that.
+Class field is considerably more interesting than location.
+The key design decision embodied in this implementation
+is to make the location of a drunk in a field
+an attribute of the field rather than an attribute of the drunk.
+I went back and forth on this design decision several times
+the first time I implemented the simulation.
+Eventually, I decided to do it this way
+because it allowed me to think more easily about how drunks
+might relate to one another spatially.
+For example, could two drunks occupy the same location
+in the field?
+So what I ended up doing is thinking
+of a field as a mapping from drunks to locations.
+This led me to use a dict as a representation of the field,
+as you'll see here, initially empty.
+Notice, by the way, that this decision
+puts a constraint on how we can implement class drunk.
+Since I'm using drunks as keys in a dict,
+it tells me that the type drunk will have to be hashable.
+I bring this up to make the point
+that even though we think of each of these classes
+as a separate abstraction, we often
+have to think about more than one at a time
+during the design process.
+If we look at add drunk, we see that the first thing it does
+is check whether the drunk is already in the field.
+If so, it raises a value error.
+We're not allowing a drunk to be cloned in some sense.
+If the drunk's not there, we just add it to the mapping.
+The most interesting method in field is move drunk.
+I could have assumed that the drunk was in the field.
+But I didn't.
+So the first thing I do is check whether or not
+the drunk is there and raise an exception if not.
+Why did I decide to do this?
+It's an example of what we call defensive programming
+in 600.1x.
+Because a field is represented as a dict,
+it's reasonably efficient to check if a drunk is already
+in the set of keys.
+So we'll have this little safety belt here.
+The next thing that happens is that we invoke a method
+of the yet unseen class drunk.
+As we will see when we get there,
+and as you could see from this use here,
+drunk.takestep simply returns a pair
+of numbers indicating how far the drunk has
+moved in each of the x and y directions, delta x
+and delta y.
+Finally, we use those distances to move the location
+in the field to which the drunk is mapped.
+Before we move on to class drunk,
+let's summarize the notable aspects of class field.
+We've decided to implement it as a mapping of drunks
+to locations.
+Notice that it's unbounded in size.
+Drunk can get arbitrarily far away.
+And notice we've allowed multiple drunks
+with no constraints about how they related to one another.
+For example, two drunks
+can occupy the same location.
+Finally, onto the long-awaited class drunk.
+Disappointing, isn't it?
+Not much going on.
+Drunk is a name.
+And we can print the name.
+If we stopped here, this would be totally useless.
+Notice it doesn't even have the take step method
+that we used in field.
+This class is not intended to be useful on its own.
+It's a base class to be inherited.
+And we'll use this base class to create two subclasses.
+By the way, if you read the assigned reading--
+and I sincerely hope you do-- you'll
+see that we have some classes that
+are even more interesting than the ones we're seeing here.
+The two base classes we're going to see in the lecture
+are what I'll call the usual drunk,
+the one we simulated by hand who just wanders around at random,
+and a drunk I think of as the I hate winter drunk,
+who just does not like cold weather
+and wants to move south as fast as he can.
+If I were drunk-- and I assure you I'm not-- this would be me.
+Even though I live in New England, I don't like winter.
+You see here a picture of my favorite New England
+state, or at least favorite in the summer, the state of Maine,
+which is very cold in the winter.
+Now, not quite as bad as it looks here.
+And you see a drunk who probably shouldn't
+be driving, I should add, trying to escape Maine.
+Wait a minute.
+The drunk is not actually escaping Maine.
+The tire tracks suggest that the drunk is driving north.
+As I said, drunks shouldn't be driving anyway.
+But imagine that it's all reversed
+and that we have this I hate cold drunk who
+is heading southward.
+Sorry about the graphic.
+OK, let's get to our two classes of drunks.
+As I said, the usual drunk behaves exactly
+like the drunk we hand simulated.
+He moves one unit east, west, north, or south,
+each with equal probability.
+So we can see here that the usual drunk,
+we start by importing random for both classes.
+And take step, the possible choices
+are either 0 and 1, 0 minus 1, et cetera.
+And then we use random.choice to choose
+one of these possible steps at random.
+The cold drunk also chooses among four directions, again,
+each with equal probability.
+But notice that when he heads northward,
+he moves slightly less than one unit.
+And when he heads southward, he moved
+slightly more than one unit.
+So think of this as a biased walk.
+In the next segment, we'll see the implication of this bias
+when we compare the possible and average trajectories
+of these two kinds of drunks.
